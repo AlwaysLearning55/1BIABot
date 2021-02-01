@@ -65,7 +65,7 @@ async def clear(ctx, amount = 2):
         await ctx.send(f"Are you sure? (Y)")
 
         def checkClear(response):
-            if response.content == "Y":
+            if response.content == "Y" or "y":
                 return True
         try:
             await client.wait_for('message', timeout=10.0, check=checkClear)
@@ -78,12 +78,14 @@ async def clear(ctx, amount = 2):
 
 @client.command(brief='Sends a personalized message', description="This command will send a designed and personalized message usually for agenda purposes")
 @commands.has_role("Membro do 1°BIA 🦅")
-async def agenda(ctx, titulo, desc, chosen_image, urlfornecido):
+async def agenda(ctx, titulo, desc, urlfornecido = "https://papabear123formiga.wixsite.com/1bia", chosen_image = None):
+    await ctx.channel.purge(limit=1)
     embed=discord.Embed(title=titulo,
                         url=urlfornecido,
                         description=desc,
-                        color=discord.Color.blue()) 
-    embed.set_image(url=chosen_image)
+                        color=discord.Color.blue())
+    if (chosen_image != None):
+        embed.set_image(url=chosen_image)
     message = await ctx.send(embed=embed)
     await message.add_reaction('✅')
 
