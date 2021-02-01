@@ -10,7 +10,9 @@ client = commands.Bot(command_prefix = '.')
 
 # Status cycle set
 status = cycle(['Anything you want!',
-                'Random status number #2'])
+                'Random status number #2',
+                'Supostamente ArmA 3',
+                "Reclamando do FPS"])
 
 # Initializing bot's extensions
 for filename in os.listdir('./cogs'):
@@ -22,7 +24,7 @@ for filename in os.listdir('./cogs'):
 async def on_ready():
     await client.change_presence(activity = discord.Game('Starting bot up!'))
     status_update.start()
-    print("Bot is Online!")
+    print("Bia Bot is Online!")
 
 # If an error occurs, send that error as a discord message on the user active channel
 @client.event
@@ -44,8 +46,6 @@ async def status_update():
 async def kick(ctx, member : discord.Member, *, reason = None):
     await member.kick(reason = reason)
     await ctx.send(f"Kickando {user.mention}!")
-
-
 
 @client.command(brief='Clear x messages from chat', description='This command will clear x messages from chat. (Max 20 messages) Use: .clear (number of messages *default clear = 2*)')
 @commands.has_permissions(manage_messages = True)
@@ -76,6 +76,20 @@ async def clear(ctx, amount = 2):
     else:
         await DeleteALL(amount)
 
+@client.command(brief='Sends a personalized message', description="This command will send a designed and personalized message usually for agenda purposes")
+@commands.has_role("Membro do 1°BIA 🦅")
+async def agenda(ctx, titulo, desc, chosen_image, urlfornecido):
+    embed=discord.Embed(title=titulo,
+                        url=urlfornecido,
+                        description=desc,
+                        color=discord.Color.blue()) 
+    embed.set_image(url=chosen_image)
+    message = await ctx.send(embed=embed)
+    await message.add_reaction('✅')
+
+
+
+
 #############################################################################################################################################
 
 # Load, unload and reload (all or one) extensions
@@ -104,7 +118,7 @@ async def reloadall(ctx):
     await ctx.send(f'Reloaded extensions!')
 
 # Open token file, read it and use it to run the client. Stored outside code for safekeeping.
-fileOpen = os.open("C:\\Users\\AlwaysLWIN\\Documents\\AlwaysDiscordBOT\\Token.txt", os.O_RDONLY)
+fileOpen = os.open("C:\\Users\\AlwaysLWIN\\Documents\\AlwaysDiscordBOT\\TokenBIA.txt", os.O_RDONLY)
 token = os.read(fileOpen, 59)
 os.close(fileOpen)
 tokenNew = str(token).split('\'')[1]
