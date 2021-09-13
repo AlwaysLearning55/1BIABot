@@ -17,21 +17,9 @@ class Example(commands.Cog):
     async def ping(self, ctx):
         await ctx.send(f"Pong! {round(self.client.latency * 1000)}ms")
 
-        # Rickrolled command.
-        #   --> Should join channel and play URL music for 18 seconds
-        #       Need work!
 
-    @commands.command(brief='On development.', description='On development')
-    async def rick(self, ctx):
-        url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-        server = ctx.message.guild
-        voice_channel = server.voice_client
-
-        if voice_channel == None:
-            await ctx.send(f"Usuário não está em um canal!")
-
-        # 8ball. You ask a question and it shall reply. Portuguese version.
-        #   (mixed responses, positive or negative questions not balanced)
+    # 8ball. You ask a question and it shall reply. Portuguese version.
+    #   (mixed responses, positive or negative questions not balanced)
 
     @commands.command(aliases = ['8ball', 'pergunta', '?'], brief='Ask a question.', description='Ask a question and the bot will answer. Use: .? (Question)')
     async def _8ball(self, ctx, *, question):

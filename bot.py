@@ -34,7 +34,7 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.MissingPermissions):
         await ctx.send('User lacks permission to use that command.')
     else:
-        await ctx.send(f'Erro: {error}')
+        await ctx.send(f'Error: {error}')
 
 # Update status every x seconds
 @tasks.loop(seconds = 60)
@@ -54,10 +54,6 @@ async def clear(ctx, amount = 2):
     #   --> No deleting messages older than "x" days. (default might be anytime);
     #       Delete all messages from a specific user or from a specific user since "x" days ago;
 
-    async def DeleteALL(amount):
-        await ctx.channel.purge(limit=(amount + 1))
-        await ctx.channel.send(f'Cleared {amount} messages. 👍')
-
     if (amount > 20):
         amount = 20
 
@@ -71,10 +67,9 @@ async def clear(ctx, amount = 2):
             await client.wait_for('message', timeout=10.0, check=checkClear)
         except asyncio.TimeoutError:
             await ctx.send("Clear failed. No response given.")
-        else:
-            await DeleteALL(amount)
     else:
-        await DeleteALL(amount)
+        await ctx.channel.purge(limit=(amount + 1))
+        await ctx.channel.send(f'Cleared {amount} messages. 👍')
 
 @client.command(brief='Sends a personalized message', description="This command will send a designed and personalized message usually for agenda purposes")
 @commands.has_role("Membro do 1°BIA 🦅")
@@ -89,7 +84,19 @@ async def agenda(ctx, titulo, desc, urlfornecido = "https://papabear123formiga.w
     message = await ctx.send(embed=embed)
     await message.add_reaction('✅')
 
+    # Rickrolled command.
+    #   --> Should join channel and play URL music for 18 seconds
+    #       Need work!
 
+    @client.command(brief='On development.', description='On development.')
+    async def rick(ctx):
+        url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        author = ctx.message.author
+        voice_channel = author.voice_channel
+        vc = await client.join_voice_channel(voice_channel)
+
+        player = await vc.create_ytdl_player(url)
+        player.start()
 
 
 #############################################################################################################################################
@@ -120,7 +127,7 @@ async def reloadall(ctx):
     await ctx.send(f'Reloaded extensions!')
 
 # Open token file, read it and use it to run the client. Stored outside code for safekeeping.
-fileOpen = os.open("C:\\Users\\AlwaysLWIN\\Documents\\AlwaysDiscordBOT\\TokenBIA.txt", os.O_RDONLY)
+fileOpen = os.open("C:\\Users\\AlwaysL\\Documents\\TokenBIA.txt", os.O_RDONLY)
 token = os.read(fileOpen, 59)
 os.close(fileOpen)
 tokenNew = str(token).split('\'')[1]
