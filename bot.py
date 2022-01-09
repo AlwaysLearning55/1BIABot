@@ -41,6 +41,13 @@ async def on_command_error(ctx, error):
 async def status_update():
     await client.change_presence(activity = discord.Game(next(status)))
 
+@bot.command(brief='DM members of X role.', description='This command will DM all members of the selected role')
+async def massDM(ctx, role: discord.Role, *, message):
+    if not len(role.members) <= 25:
+        return await ctx.send("Can't dm this much users")
+    for i in role.members:
+        await i.send(message)
+
 @client.command(brief='Kick a specific member.', description='This command will kick a specific member. Use: .kick @member')
 @commands.has_permissions(administrator = True, manage_messages = True, manage_roles = True)
 async def kick(ctx, member : discord.Member, *, reason = None):
